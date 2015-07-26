@@ -10,11 +10,14 @@
 
         <link rel="stylesheet" href="css/reveal.css">
         <link rel="stylesheet" href="css/theme/black.css" id="theme">
+        <link rel="stylesheet" href="css/styles.css">
+        <link rel="stylesheet" href="css/jquery-ui.css">
         <link href='http://fonts.googleapis.com/css?family=Oswald:400,700,300' rel='stylesheet' type='text/css'>
         <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
         <script src="lib/js/head.min.js"></script>
         <script src="js/reveal.js"></script>
-        <script src="js/Chart.js"></script>
+        <script src="js/Highcharts.js"></script>
+        <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
     </head>
 
     <body>
@@ -22,18 +25,48 @@
         <div class="reveal">
 
             <div class="slides">
+                
+                <!-- Recorrido en bus -->
+                <section data-background-iframe="intro.html">
+                    <h2 id="introTitle">De Punta a Punta...</h2>
+                </section>
+                
+                <!-- Estado abierto: cola de personas -->
+                <section data-background-iframe="fila.html">
+                    
+                </section>
+                
+                <!-- Identificacion -->
+                <!--section data-background-iframe="fila.html">
+                    
+                </section-->
+                
+                <!-- Susto y transicion -->
+                <section data-background-iframe="susto.html">
+                    
+                </section>
+                
+                                
+                <!-- Intro pregunta 1 -->
+                <!--section id="fragments" data-background="img/Background-02.jpg">
+                        <p class="fragment opciones">"El cambio no es posible"</p>
+                        <p class="fragment opciones">"Son chorros de por vida"</p>
+                        <p class="fragment opciones">"La carcel es como un hotel"</p>
+                        <p class="fragment opciones">"Es la escuelita del crimen"</p>
+                </section-->
                
                 <!-- Pregunta 1 -->
-                <section>
-                    <p>¿Qué % de reincidentes crees que tiene la unidad de rehabilitación de Punta de Rieles?</p>
-                    <div id="canvas-holder">
-                        <canvas id="chart-area" width="300" height="300"/>
-                    </div>
+                <section data-background="img/Background-02.jpg" >
+                    <p class="pregunta">¿Qué % de reincidentes crees que tiene la unidad</p>
+                    <p class="pregunta">de rehabilitación de Punta de Rieles?</p>
+                    
+                    <div id="chart-area-pregunta1"></div>
+                    <div id="sliders"></div>
                 </section>
                 
                 <!-- Respuesta 1 -->
-                 <section data-background="./img/pregunta1.png" data-background-transition="zoom">
-                    <p><strong>5%</strong> frente al 40% de otras cárceles del país</p>
+                <section data-background-transition="slide" data-transition="zoom" data-background="img/Background-02.jpg" >
+                    <p class="pregunta"><strong class="plus">5%</strong>&nbsp;&nbsp; frente al &nbsp;&nbsp;<strong>40%</strong>&nbsp;&nbsp; de otras cárceles del país</p>
                 </section>
 
                 <!-- Clip 1 -->
@@ -41,8 +74,8 @@
                 </section>
                 
                 <!-- Test -->
-                <section>
-                    <p>Oh yeah</p>
+                <section  data-transition="concave" data-background="img/Background-bus-partida.jpg">
+                    
                 </section>
                 
             </div>
@@ -50,34 +83,162 @@
         </div>
 
         <script>
-
+            var INTRO = 1;
+            var FILA = 2;
+            var PREGUNTA1 = 5;
+            var FILA_IFRAME_INDEX = 1;
+            var SUSTO_IFRAME_INDEX = 2;
+            var PREGUNTA1_IFRAME_INDEX = 3;
+            
             Reveal.initialize({
-                transition: 'linear'
+                transition: 'linear',
+                autoSlide: 1000000,
+                overview: false
             });
 
-            var pieData = [
-                {
-                    value: 90,
-                    color: "#F7464A",
-                    highlight: "#FF5A5E",
-                    label: "Red"
-                },
-                {
-                    value: 10,
-                    color: "#FDB45C",
-                    highlight: "#FFC870",
-                    label: "Yellow"
-                }
-            ];
-
             window.onload = function () {
-                var ctx = document.getElementById("chart-area").getContext("2d");
-                window.myPie = new Chart(ctx).Pie(pieData);
+                //var ctx = document.getElementById("chart-area").getContext("2d");
+                //window.myPie = new Chart(ctx).Pie(pieData);
+                $( "#introTitle").fadeOut("200000", function() {
+                    // Animation complete.
+                });
+                loadPiePregunta1();
             };
             
-            function finPregunta1() {
-                Reveal.next();
+            function loadPiePregunta1() {
+                // Build the chart
+                var chart = new Highcharts.Chart({
+                    chart: {
+                        renderTo: 'chart-area-pregunta1',
+                        plotBackgroundColor: null,
+                        plotBorderWidth: null,
+                        plotShadow: false,
+                        backgroundColor: "transparent",
+                        borderColor: "transparent",
+                        events: {
+                            redraw: function () {
+                                //update sliders   
+                                $.each(chart.series[0].points, function (i, point) {
+                                    point.slider.slider('value', point.percentage);
+                                });
+                            }
+                        }
+                    },
+                    title: {
+                        text: ''
+                    },
+                    tooltip: {
+                        pointFormat: '{series.name}: <b>{point.percentage}%</b>',
+                        percentageDecimals: 1
+                    },
+                    plotOptions: {
+                        pie: {
+                            allowPointSelect: true,
+                            cursor: 'pointer',
+                            dataLabels: {
+                                enabled: false
+                            },
+                            showInLegend: true
+                        }
+                    },
+                    series: [{
+                        type: 'pie',
+                        name: 'Browser share',
+                        data: [
+                            ['Menos', 10],
+                            ['Mas', 50]
+                        ]
+                    }]
+                });
+                var pointsLength = chart.series[0].data.length;
+                $.each(chart.series[0].points, function (i, point) {
+                    $('<input type="hidden" name="slider[]">').val(point.y).appendTo('#sliders')
+                    point.slider = $('<div></div>').appendTo('#sliders').slider({
+                        value: point.y,
+                        max: 100,
+                        min: 0,
+                        slide: function (event, ui) {
+                            var prevVal = point.y,
+                                step = (ui.value - point.y) / (pointsLength - 1),
+                                data = [],
+                                newVal;
+
+                            $.each(chart.series[0].points, function(i, p){
+                                if(p === point) {
+                                    data.push({
+                                        name: p.name,
+                                        y: ui.value
+                                    })
+                                } else {
+                                    data.push({
+                                        name: p.name,
+                                        y: p.y - step
+                                    })
+                                }
+                            });
+                            chart.series[0].setData(data);
+                            $(this).prev().val(ui.value)
+                        }
+                    })
+                    point.slider.children('a').css('background', point.color).text('    ' + point.legendItem.textStr)
+                });
+        }
+                        
+        function getUrlVar(param, defaultValue) {
+            var vars = [], hash;
+            var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+            for(var i = 0; i < hashes.length; i++)    {
+               hash = hashes[i].split('=');
+               vars.push(hash[0]);
+               vars[hash[0]] = hash[1];
             }
+            return vars[param] ? vars[param] : defaultValue;
+        }
+
+        Reveal.addEventListener( 'slidechanged', function( event ) {
+            // event.previousSlide, event.currentSlide, event.indexh, event.indexv
+                switch (event.indexh) {
+                    case INTRO:
+                        return finIntro(event);
+                        break; 
+                    case PREGUNTA1:
+                        document.getElementsByTagName("iframe")[PREGUNTA1_IFRAME_INDEX].contentWindow.playVideo();
+                        break;
+                    
+                }
+                return event;
+        } );
+
+        function estaAbierto() {
+            return getUrlVar('estado', 'abierto') == "abierto";
+        }
+
+        function finIntro(event) {
+            if (!estaAbierto()) {
+                window.location = '/changeoflife/cerrado.html';
+            } else {
+                //Autoplay del video de la fila
+                document.getElementsByTagName("iframe")[FILA_IFRAME_INDEX].contentWindow.playVideo();
+                if (event) {
+                    return event;
+                } else {
+                    Reveal.next();
+                }
+            }
+        }
+        
+        function finSusto() {
+            Reveal.next();
+        }
+
+        function finColaPersonas() {
+            document.getElementsByTagName("iframe")[SUSTO_IFRAME_INDEX].contentWindow.playVideo();
+            Reveal.next();
+        }
+
+        function finPregunta1() {
+            Reveal.next();
+        }
 
         </script>
 

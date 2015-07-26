@@ -1,12 +1,17 @@
 <!doctype html>
 <html lang="en">
 	<head>
+            <link rel="stylesheet" href="css/styles.css">
             <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
 	</head>
 	<body>
-		<video width="100%" src="video/001.ogv" type="video/ogv" id="pregunta1" controls autoplay muted fullscreen></video>
+		<video width="100%" src="video/pregunta01.mp4" type="video/mp4" id="pregunta1" controls fullscreen></video>
                 
                 <script type="text/javascript">
+                    function playVideo() {
+                        document.getElementById("pregunta1").play();
+                    };
+                    
                     document.getElementById("pregunta1").addEventListener("ended", function(){
                         parent.finPregunta1();
                     })

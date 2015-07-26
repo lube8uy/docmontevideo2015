@@ -201,7 +201,7 @@
 		autoSlidePlayer,
 		autoSlideTimeout = 0,
 		autoSlideStartTime = -1,
-		autoSlidePaused = false,
+		autoSlidePaused = true,
 
 		// Holds information about the currently ongoing touch input
 		touch = {
