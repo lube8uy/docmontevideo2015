@@ -1,3 +1,24 @@
+div.sobre-video {
+    position: absolute;
+    top: 5%;
+    left: 3%;
+}
+
+i {
+    color: rgba(0,0,0,0.3);
+    cursor: pointer;
+}
+
+p.infoextra {
+    font-family: Oswald!important; 
+    font-weight: 400!important; 
+    font-style: normal!important;
+    text-transform: uppercase;
+    line-height: 0!important;
+    color: rgba(0,0,0,0.7);
+    font-size: 1em;
+}
+
 h2 {
     font-family: Oswald!important; 
     font-weight: 700!important; 
@@ -29,13 +50,6 @@ p.form {
     margin-top: 1.4em
 }
 
-p {
-    font-family: Oswald!important; 
-    font-weight: 700!important; 
-    font-size: 0.5em!important;
-    font-style: normal!important;
-}
-
 p.opciones {
     font-family: Oswald!important; 
     font-weight: 700!important; 
@@ -53,7 +67,7 @@ p.pregunta {
     font-family: Oswald!important; 
     font-weight: 400!important; 
     font-style: normal!important;
-    font-size: 0.8em!important;
+    font-size: 0.8em;
     color: black!important;
 }
 

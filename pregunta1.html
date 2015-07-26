@@ -2,19 +2,30 @@
 <html lang="en">
 	<head>
             <link rel="stylesheet" href="css/styles.css">
+            <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+            <link href='http://fonts.googleapis.com/css?family=Oswald:400,700,300' rel='stylesheet' type='text/css'>
             <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
 	</head>
 	<body>
 		<video width="100%" src="video/pregunta01.mp4" type="video/mp4" id="pregunta1" controls fullscreen></video>
-                
-                <script type="text/javascript">
-                    function playVideo() {
-                        document.getElementById("pregunta1").play();
-                    };
-                    
-                    document.getElementById("pregunta1").addEventListener("ended", function(){
-                        parent.finPregunta1();
-                    })
-                </script>
+        <div class="sobre-video">
+            <i id="info-icon" class="fa fa-info-circle fa-2x"></i>
+            <p class="infoextra "id="info-extra">Entrevista a Sandro</p>
+        </div>
+        <script type="text/javascript">
+            $("#info-extra").hide();
+
+            $("#info-icon").click(function(){
+                $("#info-extra").toggle();
+            });
+
+            function playVideo() {
+                document.getElementById("pregunta1").play();
+            };
+            
+            document.getElementById("pregunta1").addEventListener("ended", function(){
+                parent.finPregunta1();
+            })
+        </script>
 	</body>
 </html>
