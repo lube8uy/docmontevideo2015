@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="es">
+
+    <head>
+        <meta charset="utf-8">
+
+        <title>From end to end</title>
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <link rel="stylesheet" href="css/reveal.css">
+        <link rel="stylesheet" href="css/theme/black.css" id="theme">
+        <link href='http://fonts.googleapis.com/css?family=Oswald:400,700,300' rel='stylesheet' type='text/css'>
+        <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+        <script src="lib/js/head.min.js"></script>
+        <script src="js/reveal.js"></script>
+        <script src="js/Chart.js"></script>
+    </head>
+
+    <body>
+
+        <div class="reveal">
+
+            <div class="slides">
+               
+                <!-- CERRADO! -->
+                <section data-background="img/Background-01.jpg">
+                    <audio src="audio/walkietalkie.mp3" autoplay loop hidden></audio>
+                    <h3>Horario de visitas: </h3>
+                    <p>Miércoles, sábados y domingos.</p>
+                    <p>9:00 a 16:00</p>
+                    </br>
+                    <h3>Requisitos: </h3>
+                    <p>Documento de identidad.</p>
+                    <p>Someterse a la revisión pertinente.</p>
+                    <p>Vestimenta: pantalones largos.</p>
+                </section>
+
+            </div>
+
+        </div>
+
+        <script>
+
+            Reveal.initialize({
+                transition: 'linear'
+            });
+
+            var pieData = [
+                {
+                    value: 90,
+                    color: "#F7464A",
+                    highlight: "#FF5A5E",
+                    label: "Red"
+                },
+                {
+                    value: 10,
+                    color: "#FDB45C",
+                    highlight: "#FFC870",
+                    label: "Yellow"
+                }
+            ];
+
+            window.onload = function () {
+                var ctx = document.getElementById("chart-area").getContext("2d");
+                window.myPie = new Chart(ctx).Pie(pieData);
+            };
+            
+            function finPregunta1() {
+                Reveal.next();
+            }
+
+        </script>
+
+    </body>
+</html>
