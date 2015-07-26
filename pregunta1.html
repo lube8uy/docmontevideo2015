@@ -12,6 +12,10 @@
                         document.getElementById("pregunta1").play();
                     };
                     
+                    function pauseVideo() {
+                        document.getElementById("pregunta1").pause();
+                    };
+                    
                     document.getElementById("pregunta1").addEventListener("ended", function(){
                         parent.finPregunta1();
                     })

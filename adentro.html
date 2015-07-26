@@ -4,19 +4,19 @@
             <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
 	</head>
 	<body>
-		<video width="100%" src="video/espera.mp4" type="video/mp4" id="fila" controls fullscreen></video>
+		<video width="100%" src="video/adentro.mp4" type="video/mp4" id="adentro" controls fullscreen></video>
                 
                 <script type="text/javascript">
                     function playVideo() {
-                        document.getElementById("fila").play();
+                        document.getElementById("adentro").play();
                     };
 
                     function pauseVideo() {
-                        document.getElementById("fila").pause();
+                        document.getElementById("adentro").pause();
                     };
                     
-                    document.getElementById("fila").addEventListener("ended", function(){
-                        parent.finColaPersonas();
+                    document.getElementById("adentro").addEventListener("ended", function(){
+                        parent.finAdentro();
                     })
                 </script>
 	</body>

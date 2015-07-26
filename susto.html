@@ -10,6 +10,11 @@
                     function playVideo() {
                         document.getElementById("susto").play();
                     };
+                    
+                    function pauseVideo() {
+                        console.log("pausa");
+                        document.getElementById("susto").pause();
+                    };
 
                     document.getElementById("susto").addEventListener("ended", function(){
                         //document.getElementById("susto").pause();

@@ -9,7 +9,11 @@
                 <script type="text/javascript">
                     document.getElementById("intro").addEventListener("ended", function(){
                         parent.finIntro();
-                    })
+                    });
+                    
+                    function pauseVideo() {
+                        document.getElementById("intro").pause();
+                    };
                 </script>
 	</body>
 </html>
