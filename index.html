@@ -28,7 +28,9 @@
                 
                 <!-- Recorrido en bus -->
                 <section data-background-iframe="intro.html">
-                    <h2 id="introTitle">De Punta a Punta...</h2>
+                    <h2>De Punta a Punta</h2>
+                    <p>En Uruguay casi diez mil personas estan privadas de libertad. Un 70% de ellas tienen entre 18 y 35 años.</p>
+                    <p>La unidad número 6 Punta de Rieles forma parte del Instituto Nacional de Rehabilitación creado por ley en el 2010.</p>
                 </section>
                 
                 <!-- Estado abierto: cola de personas -->
@@ -37,23 +39,25 @@
                 </section>
                 
                 <!-- Identificacion -->
-                <!--section data-background-iframe="fila.html">
-                    
-                </section-->
+               <section data-background="img/IDENTIFICACION-01.jpg">
+                   <audio autoplay src="audio/ambiente.mp3" hidden></audio>
+                   <div class="formulario" onsubmit="return false">
+                       <form action="/">
+                           <p class="form">Edad</p>
+                           <input type="text" name="edad">
+                           <p class="form">Ciudad - Barrio</p>
+                           <input type="text" name="barrio">
+                           <p class="form">Nivel educativo</p>
+                           <input type="text" name="educacion"> </br></br>
+                           <button onclick="Reveal.next()">Ingresar</button>
+                       </form>
+                   </div>
+               </section>
                 
                 <!-- Susto y transicion -->
                 <section data-background-iframe="susto.html">
                     
                 </section>
-                
-                                
-                <!-- Intro pregunta 1 -->
-                <!--section id="fragments" data-background="img/Background-02.jpg">
-                        <p class="fragment opciones">"El cambio no es posible"</p>
-                        <p class="fragment opciones">"Son chorros de por vida"</p>
-                        <p class="fragment opciones">"La carcel es como un hotel"</p>
-                        <p class="fragment opciones">"Es la escuelita del crimen"</p>
-                </section-->
                
                 <!-- Pregunta 1 -->
                 <section data-background="img/Background-02.jpg" >
@@ -67,6 +71,7 @@
                 <!-- Respuesta 1 -->
                 <section data-background-transition="slide" data-transition="zoom" data-background="img/Background-02.jpg" >
                     <p class="pregunta"><strong class="plus">5%</strong>&nbsp;&nbsp; frente al &nbsp;&nbsp;<strong>40%</strong>&nbsp;&nbsp; de otras cárceles del país</p>
+                    <p style="font-size:0.8em!important">(El usuario promedio responde 62%)</p>
                 </section>
 
                 <!-- Clip 1 -->
@@ -74,9 +79,9 @@
                 </section>
                 
                 <!-- Test -->
-                <section  data-transition="concave" data-background="img/Background-bus-partida.jpg">
+                <!--section  data-transition="concave" data-background="img/Background-bus-partida.jpg">
                     
-                </section>
+                </section-->
                 
             </div>
 
@@ -85,29 +90,34 @@
         <script>
             var INTRO = 1;
             var FILA = 2;
-            var PREGUNTA1 = 5;
+            var SUSTO = 3;
+            var STAT_PREGUNTA1 = 4;
+            var PREGUNTA1 = 6;
             var FILA_IFRAME_INDEX = 1;
             var SUSTO_IFRAME_INDEX = 2;
             var PREGUNTA1_IFRAME_INDEX = 3;
             
             Reveal.initialize({
                 transition: 'linear',
-                autoSlide: 1000000,
-                overview: false
+                autoSlide: 0,
+                overview: false,
+                controls: false
             });
 
-            window.onload = function () {
+            $(function () {
                 //var ctx = document.getElementById("chart-area").getContext("2d");
                 //window.myPie = new Chart(ctx).Pie(pieData);
                 $( "#introTitle").fadeOut("200000", function() {
                     // Animation complete.
                 });
                 loadPiePregunta1();
-            };
+            });
+            
+            var chart = null;
             
             function loadPiePregunta1() {
                 // Build the chart
-                var chart = new Highcharts.Chart({
+                chart = new Highcharts.Chart({
                     chart: {
                         renderTo: 'chart-area-pregunta1',
                         plotBackgroundColor: null,
@@ -118,8 +128,8 @@
                         events: {
                             redraw: function () {
                                 //update sliders   
-                                $.each(chart.series[0].points, function (i, point) {
-                                    point.slider.slider('value', point.percentage);
+                                $.each(chart.series[0].points, function (i, point) {                         
+                                    point.slider.slider('value', point.percentage);   
                                 });
                             }
                         }
@@ -143,16 +153,17 @@
                     },
                     series: [{
                         type: 'pie',
-                        name: 'Browser share',
+                        name: 'Reincidentes',
                         data: [
-                            ['Menos', 10],
-                            ['Mas', 50]
+                            ['Rehabilitados', 40],
+                            ['Reincidentes', 60]
                         ]
                     }]
                 });
                 var pointsLength = chart.series[0].data.length;
                 $.each(chart.series[0].points, function (i, point) {
-                    $('<input type="hidden" name="slider[]">').val(point.y).appendTo('#sliders')
+                    var h = i == 0 ? '<input type="hidden" name="slider[]">' : '<input type="hidden" style="display:none" name="slider[]">';
+                    $(h).val(point.y).appendTo('#sliders')
                     point.slider = $('<div></div>').appendTo('#sliders').slider({
                         value: point.y,
                         max: 100,
@@ -164,7 +175,7 @@
                                 newVal;
 
                             $.each(chart.series[0].points, function(i, p){
-                                if(p === point) {
+                                if (p === point) {
                                     data.push({
                                         name: p.name,
                                         y: ui.value
@@ -197,12 +208,19 @@
 
         Reveal.addEventListener( 'slidechanged', function( event ) {
             // event.previousSlide, event.currentSlide, event.indexh, event.indexv
+            console.log(event);
                 switch (event.indexh) {
                     case INTRO:
                         return finIntro(event);
                         break; 
                     case PREGUNTA1:
                         document.getElementsByTagName("iframe")[PREGUNTA1_IFRAME_INDEX].contentWindow.playVideo();
+                        break;
+                    case SUSTO:
+                        document.getElementsByTagName("iframe")[SUSTO_IFRAME_INDEX].contentWindow.playVideo();
+                        break;
+                    case STAT_PREGUNTA1:
+                        $('#chart-area-pregunta1').highcharts().setSize(900, 400, false);
                         break;
                     
                 }
@@ -234,6 +252,7 @@
         function finColaPersonas() {
             document.getElementsByTagName("iframe")[SUSTO_IFRAME_INDEX].contentWindow.playVideo();
             Reveal.next();
+            
         }
 
         function finPregunta1() {

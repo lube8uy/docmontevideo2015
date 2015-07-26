@@ -5,6 +5,37 @@ h2 {
     font-size: 2.6em!important;
 }
 
+div.formulario {
+    position: relative;
+}
+form{
+    position: absolute;
+    left: 46%;
+    top: -2.0em;
+    text-align: left;
+    font-family: Oswald!important; 
+    font-weight: 400!important; 
+    font-style: normal!important;
+    text-transform: uppercase;
+    line-height: 0!important;
+    color: #a5a5a5!important;
+    margin-bottom: 0!important;
+    margin-top:0.2!important;
+}
+
+p.form {
+    font-size: 0.4em;
+    margin-bottom: 0.1em;
+    margin-top: 1.4em
+}
+
+p {
+    font-family: Oswald!important; 
+    font-weight: 700!important; 
+    font-size: 0.5em!important;
+    font-style: normal!important;
+}
+
 p.opciones {
     font-family: Oswald!important; 
     font-weight: 700!important; 
@@ -22,7 +53,7 @@ p.pregunta {
     font-family: Oswald!important; 
     font-weight: 400!important; 
     font-style: normal!important;
-    font-size: 0.8em;
+    font-size: 0.8em!important;
     color: black!important;
 }
 
