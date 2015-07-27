@@ -167,6 +167,14 @@ p.pregunta strong.plus {
     font-size: 90%!important;
     text-decoration: none!important;
 }
+#sliders2 {
+    width: 80%!important;
+    padding: 0 10% 0 10%!important;
+}
+#sliders2 a {
+    font-size: 90%!important;
+    text-decoration: none!important;
+}
 #container {
     min-width: 400px!important;
     height: 400px;

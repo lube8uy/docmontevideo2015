@@ -83,6 +83,25 @@
                 <section data-background-iframe="pregunta1.html" id="PREGUNTA1_CLIP">
                 </section>
                 
+                <!-- Pregunta 2 9 -->
+                <section data-background="img/Background-02.jpg" data-autoslide="0" id="PREGUNTA2">
+                    <p class="pregunta">¿Qué % de los reclusos</p>
+                    <p class="pregunta"><b>trabajan</b> en Punta de Rieles?</p>
+                    
+                    <div id="chart-area-pregunta2"></div>
+                    <div id="sliders2"></div>
+                </section>
+            
+                <!-- Respuesta 2 7 -->
+                <section data-background-transition="slide" data-transition="zoom" data-background="img/Background-02.jpg"  data-autoslide="0" id="PREGUNTA2_RESPUESTA">
+                    <p class="pregunta"><strong class="plus">67%</strong>&nbsp;&nbsp; en 37 emprendimientos distintos</p>
+                    <p style="font-size:0.8em!important">(El usuario promedio responde 20%)</p>
+                </section>
+
+                <!-- Clip 2 8 -->
+                <section data-background-iframe="pregunta2.html" id="PREGUNTA2_CLIP">
+                </section>
+                
                 <!-- Observatorio 9 -->
                 <section data-background-iframe="fin_observatorio.html" id="FIN_CLIP">
                 </section>
@@ -91,8 +110,6 @@
                 <section data-background-iframe="fin_bus.html" id="FIN_BUS">
                 </section>
                     
-                </section-->
-                
             </div>
 
         </div>
@@ -106,16 +123,21 @@
         var PREGUNTA1 = 5;
         var PREGUNTA1_RESPUESTA = 6;
         var PREGUNTA1_CLIP = 7;
-        var FIN_CLIP = 8;
-        var FIN_BUS = 9;
+        var PREGUNTA2 = 8;
+        var PREGUNTA2_RESPUESTA = 9;
+        var PREGUNTA2_CLIP = 10;
+        var FIN_CLIP = 11;
+        var FIN_BUS = 12;
+        
 
         var INTRO_IFRAME_INDEX = 0;
         var FILA_IFRAME_INDEX = 1;
         var SUSTO_IFRAME_INDEX = 2;
         var ADENTRO_IFRAME_INDEX = 3;
         var PREGUNTA1_CLIP_IFRAME_INDEX = 4;
-        var FIN_CLIP_IFRAME_INDEX = 5;
-        var FIN_BUS_IFRAME_INDEX = 6;
+        var PREGUNTA2_CLIP_IFRAME_INDEX = 5;
+        var FIN_CLIP_IFRAME_INDEX = 6;
+        var FIN_BUS_IFRAME_INDEX = 7;
 
         Reveal.initialize({
             transition: 'linear',
@@ -126,9 +148,11 @@
 
         $(function () {
             loadPiePregunta1();
+            loadPiePregunta2();
         });
 
         var chart = null;
+        var chart2 = null;
 
         function loadPiePregunta1() {
             // Build the chart
@@ -214,7 +238,92 @@
             });
     }
                         
-        function getUrlVar(param, defaultValue) {
+        function loadPiePregunta2() {
+            // Build the chart
+            chart2 = new Highcharts.Chart({
+                colors: ['white', 'black'],
+                chart: {
+                    renderTo: 'chart-area-pregunta2',
+                    plotBackgroundColor: null,
+                    plotBorderWidth: null,
+                    plotShadow: false,
+                    backgroundColor: "transparent",
+                    borderColor: "transparent",
+                    events: {
+                        redraw: function () {
+                            //update sliders   
+                            $.each(chart2.series[0].points, function (i, point) {                         
+                                point.slider.slider('value', point.percentage);   
+                            });
+                        }
+                    }
+                },
+                title: {
+                    text: ''
+                },
+                tooltip: {
+                    pointFormat: '{series.name}: <b>{point.percentage}%</b>',
+                    percentageDecimals: 1
+                },
+                plotOptions: {
+                    pie: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        dataLabels: {
+                            enabled: true,
+                            format: '<b style="font-size: 2em;">{point.name}</b><span style="font-size: 2em;">: {point.percentage:.1f} %</span>',
+                            style: {
+                                color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black',
+                            }
+                        },
+                        showInLegend: true
+                    }
+                },
+                series: [{
+                    type: 'pie',
+                    name: 'Trabajadores',
+                    data: [
+                        {name: 'Trabajan', y: 50},
+                        {name: 'No trabajan', y: 50}
+                    ]
+                }]
+            });
+            var pointsLength = chart2.series[0].data.length;
+            $.each(chart2.series[0].points, function (i, point) {
+                var h = i == 0 ? '<input type="hidden" name="slider2[]">' : '<input type="hidden" style="display:none" name="slider2[]">';
+                $(h).val(point.y).appendTo('#sliders2')
+                point.slider = $('<div></div>').appendTo('#sliders2').slider({
+                    value: point.y,
+                    max: 100,
+                    min: 0,
+                    slide: function (event, ui) {
+                        var prevVal = point.y,
+                            step = (ui.value - point.y) / (pointsLength - 1),
+                            data = [],
+                            newVal;
+
+                        $.each(chart2.series[0].points, function(i, p){
+                            if (p === point) {
+                                data.push({
+                                    name: p.name,
+                                    y: ui.value
+                                })
+                            } else {
+                                data.push({
+                                    name: p.name,
+                                    y: p.y - step
+                                })
+                            }
+                        });
+                        chart2.series[0].setData(data);
+                        $(this).prev().val(ui.value)
+                    }
+                });
+                point.slider.children('a').css('background', point.color).text('    ' + point.legendItem.textStr)
+            });
+    }
+
+    function getUrlVar(param, defaultValue) {
             var vars = [], hash;
             var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
             for(var i = 0; i < hashes.length; i++)    {
@@ -269,6 +378,14 @@
                     pausarTodos();
                     document.getElementsByTagName("iframe")[FIN_BUS_IFRAME_INDEX].contentWindow.playVideo();
                     break;    
+                case PREGUNTA2:
+                    pausarTodos();
+                    $('#chart-area-pregunta2').highcharts().setSize(900, 400, false);
+                    break;  
+                case PREGUNTA2_CLIP:
+                    pausarTodos();
+                    document.getElementsByTagName("iframe")[PREGUNTA2_CLIP_IFRAME_INDEX].contentWindow.playVideo();
+                    break;
                 default:
                     pausarTodos();
                     break;
@@ -307,6 +424,12 @@
 
         function finPregunta1() {
             if (isCurrentSlide("PREGUNTA1_CLIP")) {
+                Reveal.next();
+            }
+        }
+        
+        function finPregunta2() {
+            if (isCurrentSlide("PREGUNTA2_CLIP")) {
                 Reveal.next();
             }
         }
