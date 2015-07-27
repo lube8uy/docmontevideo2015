@@ -4,9 +4,21 @@ div.sobre-video {
     left: 3%;
 }
 
+div.sobre-video-abajo{
+    position: absolute;
+    bottom: 5%;
+    padding: 0 auto;
+    width: 100%;
+}
+
 i {
     color: rgba(0,0,0,0.3);
     cursor: pointer;
+    margin: 0 1%;
+}
+
+i:hover{
+    color: rgba(0,0,0,0.7);
 }
 
 p.infoextra {
@@ -17,6 +29,15 @@ p.infoextra {
     line-height: 0!important;
     color: rgba(0,0,0,0.7);
     font-size: 1em;
+}
+
+.links {
+    color:rgba(255,255,255,0.7);}
+
+h4 {
+    font-family: Oswald!important; 
+    font-weight: 400!important; 
+    font-style: normal!important;
 }
 
 h2 {
