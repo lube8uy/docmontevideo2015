@@ -12,7 +12,7 @@
         <link rel="stylesheet" href="css/theme/black.css" id="theme">
         <link rel="stylesheet" href="css/styles.css">
         <link rel="stylesheet" href="css/jquery-ui.css">
-        <link href='http://fonts.googleapis.com/css?family=Oswald:400,700,300' rel='stylesheet' type='text/css'>
+        <!--link href='http://fonts.googleapis.com/css?family=Oswald:400,700,300' rel='stylesheet' type='text/css'-->
         <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
         <script src="lib/js/head.min.js"></script>
         <script src="js/reveal.js"></script>
@@ -83,12 +83,13 @@
                 <section data-background-iframe="pregunta1.html" id="PREGUNTA1_CLIP">
                 </section>
                 
-                <!-- Clip 1 9 -->
-                <section data-background-iframe="salida.html" id="PREGUNTA1_CLIP">
+                <!-- Observatorio 9 -->
+                <section data-background-iframe="fin_observatorio.html" id="FIN_CLIP">
                 </section>
 
-                <!-- Test -->
-                <!--section  data-transition="concave" data-background="img/Background-bus-partida.jpg">
+                <!-- Bus y shares 10 -->
+                <section data-background-iframe="fin_bus.html" id="FIN_BUS">
+                </section>
                     
                 </section-->
                 
@@ -105,12 +106,16 @@
         var PREGUNTA1 = 5;
         var PREGUNTA1_RESPUESTA = 6;
         var PREGUNTA1_CLIP = 7;
+        var FIN_CLIP = 8;
+        var FIN_BUS = 9;
 
         var INTRO_IFRAME_INDEX = 0;
         var FILA_IFRAME_INDEX = 1;
         var SUSTO_IFRAME_INDEX = 2;
         var ADENTRO_IFRAME_INDEX = 3;
         var PREGUNTA1_CLIP_IFRAME_INDEX = 4;
+        var FIN_CLIP_IFRAME_INDEX = 5;
+        var FIN_BUS_IFRAME_INDEX = 6;
 
         Reveal.initialize({
             transition: 'linear',
@@ -156,7 +161,11 @@
                         allowPointSelect: true,
                         cursor: 'pointer',
                         dataLabels: {
-                            enabled: false
+                            enabled: true,
+                            format: '<b style="font-size: 2em;">{point.name}</b><span style="font-size: 2em;">: {point.percentage:.1f} %</span>',
+                            style: {
+                                color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black',
+                            }
                         },
                         showInLegend: true
                     }
@@ -165,8 +174,8 @@
                     type: 'pie',
                     name: 'Reincidentes',
                     data: [
-                        ['Rehabilitados', 40],
-                        ['Reincidentes', 60]
+                        {name: 'Rehabilitados', y: 40},
+                        {name: 'Reincidentes', y: 60}
                     ]
                 }]
             });
@@ -228,7 +237,7 @@
 
         Reveal.addEventListener( 'slidechanged', function( event ) {
             // event.previousSlide, event.currentSlide, event.indexh, event.indexv
-            console.log(event);
+            //console.log(event);
             
             switch (event.indexh) {
                 case FILA:
@@ -252,6 +261,14 @@
                     pausarTodos();
                     $('#chart-area-pregunta1').highcharts().setSize(900, 400, false);
                     break;
+                case FIN_CLIP:
+                    pausarTodos();
+                    document.getElementsByTagName("iframe")[FIN_CLIP_IFRAME_INDEX].contentWindow.playVideo();
+                    break;
+                case FIN_BUS:
+                    pausarTodos();
+                    document.getElementsByTagName("iframe")[FIN_BUS_IFRAME_INDEX].contentWindow.playVideo();
+                    break;    
                 default:
                     pausarTodos();
                     break;
@@ -294,13 +311,25 @@
             }
         }
         
+        function finObservatorio() {
+            if (isCurrentSlide("FIN_CLIP")) {
+                Reveal.next();
+            }
+        }
+        
+        function finBus() {
+            if (isCurrentSlide("FIN_BUS")) {
+                Reveal.next();
+            }
+        }
+        
         function isCurrentSlide(ID) {
             return $(Reveal.getCurrentSlide()).attr('id') == ID;
         }
         
         function pausarTodos() {
             var iframes = document.getElementsByTagName("iframe");
-            console.log(iframes);
+            //console.log(iframes);
             for (var ifr in iframes) {
                 if (ifr.contentWindow && typeof ifr.contentWindow != "undefined" && 
                         typeof ifr.contentWindow.pauseVideo == "function") {
