@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="es">
+	<head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="css/styles.css">
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+        <link href='http://fonts.googleapis.com/css?family=Oswald:400,700,300' rel='stylesheet' type='text/css'>
+        <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+	</head>
+	<body>
+		<video width="100%" src="video/fin_bus.mp4" type="video/mp4" id="intro" controls autoplay muted fullscreen></video>
+        <div class="sobre-video-abajo" id="links" align="center">
+            <!-- <h4 class="links">Más información</h4> -->
+            <a href="http://ibiramedia.wix.com/cambio-de-vida"><i class="fa fa-home fa-2x links"></i></a>
+            <i class="fa fa-share-alt fa-2x links"></i>
+            <a href="https://github.com/lube8uy/docmontevideo2015"><i class="fa fa-facebook-official fa-2x links"></i></a>
+            <a href="https://github.com/lube8uy/docmontevideo2015"><i class="fa fa-github fa-2x links"></i></a>
+
+
+        </div>
+        <script type="text/javascript">
+            $("#links").hide();
+            document.getElementById("intro").addEventListener("ended", function(){
+                $("#links").show();
+            })
+        </script>
+	</body>
+</html>

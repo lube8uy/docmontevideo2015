@@ -45,6 +45,47 @@
   font-weight: 700;
   src: local('Oswald Bold'), local('Oswald-Bold'), url(http://fonts.gstatic.com/s/oswald/v10/bH7276GfdCjMjApa_dkG6VtXRa8TVwTICgirnJhmVJw.woff2) format('woff2');
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+
+div.sobre-video {
+    position: absolute;
+    top: 5%;
+    left: 3%;
+}
+
+div.sobre-video-abajo{
+    position: absolute;
+    bottom: 5%;
+    padding: 0 auto;
+    width: 100%;
+}
+
+i {
+    color: rgba(0,0,0,0.3);
+    cursor: pointer;
+    margin: 0 1%;
+}
+
+i:hover{
+    color: rgba(0,0,0,0.7);
+}
+
+p.infoextra {
+    font-family: Oswald!important; 
+    font-weight: 400!important; 
+    font-style: normal!important;
+    text-transform: uppercase;
+    line-height: 0!important;
+    color: rgba(0,0,0,0.7);
+    font-size: 1em;
+}
+
+.links {
+    color:rgba(255,255,255,0.7);}
+
+h4 {
+    font-family: Oswald!important; 
+    font-weight: 400!important; 
+    font-style: normal!important;
 }
 
 h2 {
